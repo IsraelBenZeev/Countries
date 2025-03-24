@@ -53,7 +53,7 @@ class Country {
         const flag = document.createElement("img");
         information.innerHTML = `
         <span id="name_id">${this.name}</span><br>
-        <i class="fa fa-users" aria-hidden="true"></i> pop: ${this.pop}<br>
+        <i class="fa fa-users" aria-hidden="true"></i> pop: ${this.pop.toLocaleString()}<br>
         <i class="fa fa-globe" aria-hidden="true"></i> region: ${this.region}<br>
         <i class="fa fa-language" aria-hidden="true"></i> langueges: ${languagesStr}<br>
         <i class="fa fa-database" aria-hidden="true"></i> coin: ${this.coin}<br>

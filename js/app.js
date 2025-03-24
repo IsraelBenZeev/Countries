@@ -46,6 +46,10 @@ const renderBySearch = (_arrCountries) => {
 }
 const renderBySelect = () => {
     const select = document.querySelector("#select_id");
+    // const cards = document.querySelector(".cards");
+    // cards.innerHTML = `
+    // <img src="./files/loading.webp" alt="">
+    // `
     select.addEventListener('change', () => {
         restartCards();
         console.log(select.value);
@@ -60,8 +64,10 @@ const doApi = (_url) => {
             }
             return response.json()
                 .then(data => {
-                    
+
                     creatObj(data[0])
+                    // const cards = document.querySelector(".cards");
+                    // cards.innerHTML = ""
                 })
                 .catch(err => {
                     console.log(`error: ${err}`);
@@ -98,9 +104,9 @@ const doApi2 = (_url) => {
                 renderBySearch(arrCountries);
                 renderBySelect();
             })
-        .catch(err =>{
-            console.log(`Error ${err}`);
-        })
+            .catch(err => {
+                console.log(`Error ${err}`);
+            })
     })
 }
 
