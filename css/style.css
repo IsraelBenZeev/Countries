@@ -1,0 +1,56 @@
+@import url("colors.css");
+#nav_id {
+    background-color: rgb(228, 151, 151);
+}
+
+/* li {
+    transition: all 0.4s ease-in;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+}
+
+li:hover {
+    border-top-color: blue;
+    border-bottom-color: blue;
+} */
+#ul_id {
+    /* border: 3px solid red; */
+    gap: 20px;
+}
+
+#a_id {
+    position: relative;
+    padding: 5px;
+}
+
+#a_id::before,
+#a_id::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    /* background: blue; */
+    transition: width 0.5s ease-in-out, left 0.5s ease-in-out;
+}
+
+#a_id::before {
+    top: 0;
+}
+
+#a_id::after {
+    bottom: 0;
+}
+
+#a_id:hover::before,
+#a_id:hover::after {
+    width: 100%;
+    left: 0;
+}
+main{
+    margin: 5px 0;
+}
+footer{
+    /* min-height: 100px; */
+    background-color: var(--primary);
+}
