@@ -1,54 +1,41 @@
-@import url("colors.css");
+@im|port url("colors.css");
+body{
+    width: 98vw;
+}
+.center{
+    /* border:  3px solid lightgreen; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #nav_id {
-    background-color: rgb(228, 151, 151);
+    /* background-color: rgb(228, 151, 151); */
 }
 
-/* li {
+li {
     transition: all 0.4s ease-in;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
 }
 
 li:hover {
-    border-top-color: blue;
-    border-bottom-color: blue;
-} */
+    border-top-color: white;
+    border-bottom-color: white;
+}
 #ul_id {
     /* border: 3px solid red; */
     gap: 20px;
 }
-
-#a_id {
-    position: relative;
-    padding: 5px;
-}
-
-#a_id::before,
-#a_id::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    width: 0;
-    height: 3px;
-    /* background: blue; */
-    transition: width 0.5s ease-in-out, left 0.5s ease-in-out;
-}
-
-#a_id::before {
-    top: 0;
-}
-
-#a_id::after {
-    bottom: 0;
-}
-
-#a_id:hover::before,
-#a_id:hover::after {
-    width: 100%;
-    left: 0;
-}
 main{
+    background-image: url('../files/bg2.jpg');
+    background-size: cover;
+    background-position: center center;
     margin: 5px 0;
+    width: 100%;
+}
+.myContainer{
+    /* border: 3px solid rgb(240, 127, 6); */
+    width: 85%;
 }
 footer{
     /* min-height: 100px; */
