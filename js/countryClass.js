@@ -1,6 +1,6 @@
 import { renderInStart } from "./app.js";
 class Country {
-    constructor(_name, _pop, _region, languages, _coin, _capital, _flag) {
+    constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map) {
         this.name = _name;
         this.pop = _pop;
         this.region = _region;
@@ -8,12 +8,17 @@ class Country {
         this.coin = _coin;
         this.capital = _capital;
         this.flag = _flag;
+        this.points = _points;
+        this.link_map = _link_map;
     }
     render() {
         // const main = document.querySelector("main");
         // const container = document.querySelector(".myContainer");
+        const loading = document.querySelector("#loading");
 
         const card = document.createElement("div");
+        const body = document.createElement("div");
+        body.className = "body_class"
         const cards = document.querySelector(".cards");
         // const cards = document.createElement("div");
         card.classList = "myCard"
@@ -23,15 +28,31 @@ class Country {
         flag.src = this.flag.png;
         const name = document.createElement("div");
         name.textContent = this.name;
-        card.append(flag, name);
+        body.append(flag, name)
+        card.append(body);
         cards.appendChild(card)
         card.addEventListener('click', () => {
             console.log("entered");
             this.renderPop();
         })
+        if (loading) loading.classList = "hide";
 
     }
+    creatMapWithPoints(a, b){
+        var map = L.map('map').setView([a, b], 7);
+
+        // שימוש באריחים של גוגל מפות
+        var googleLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], // שרתים של גוגל
+          attribution: 'Map data © Google'
+        });
+      
+        googleLayer.addTo(map);
+    }
     renderPop() {
+
+
+
         // const main = document.querySelector("main");
         const arrLan = Object.keys(this.languages);
         let languagesStr = "";
@@ -44,6 +65,10 @@ class Country {
 
         const container = document.querySelector(".myContainer");
         const card = document.createElement("div");
+        const left = document.createElement("div");
+        left.classList = "left"
+        const right = document.createElement("div");
+        right.classList = "right"
         const cards = document.querySelector(".cards");
         // const cards = document.createElement("div");
         card.classList = "myCard"
@@ -61,16 +86,24 @@ class Country {
         `
         flag.src = this.flag.png;
         const back = document.createElement("button");
-        back.classList = "btn btn-secondary";
+        back.classList = "btn btn-dark";
         back.textContent = "back";
         back.addEventListener('click', () => {
             console.log("back entered");
             renderInStart();
 
         })
+        // right.innerHTML = "hyhyredrjhmjhkjrnhoiujgownguobgiphwbihvbugbvugbriyug"
+        // right.innerHTML = 
+        right.innerHTML = `
+            <div id="containerMap"><a href=${this.link_map}><div id="map" style="width: 100%; height: 500px;"></div></a></div>
+        `
+        setTimeout(() => this.creatMapWithPoints(this.points[0], this.points[1]), 0);
+
 
         container.appendChild(cards);
-        card.append(flag, information, back);
+        left.append(flag, information, back);
+        card.append(left, right)
         cards.appendChild(card)
 
     }

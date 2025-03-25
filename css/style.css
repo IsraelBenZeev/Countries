@@ -1,6 +1,13 @@
 @im|port url("colors.css");
 body{
-    width: 98vw;
+    width: 100vw;
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
 }
 .center{
     /* border:  3px solid lightgreen; */
@@ -55,10 +62,12 @@ li:hover {
     border-radius: 5px;
 }
 main{
+    /* padding: 30px 0; */
+    margin-top: 110px;
     background-image: url('../files/bg2.jpg');
     background-size: cover;
     background-position: center center;
-    margin: 5px 0;
+    /* margin: 5px 0; */
     width: 100%;
 }
 .myContainer{
@@ -67,16 +76,63 @@ main{
 }
 footer{
     /* min-height: 100px; */
+    /* margin-bottom: auto; */
     background-color: var(--primary);
 }
 @media (max-width: 450px) {
-    header{
-        height: 15vh;
-    }
-    main{
-        min-height: 75vh;
-    }
-    footer{
-        height: 10vh;
-    }
 }
+header{
+    /* height: 15vh; */
+}
+main{
+    min-height: 75vh;
+}
+footer{
+    /* height: 10vh; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* HTML: <div class="loader"></div>
+.loader {
+    width: 100px;
+    display: grid;
+    background: radial-gradient(farthest-side, #fff 98%, #0000) center/30px 100%
+      no-repeat;
+    --mask: 
+      radial-gradient(12px at left 15px top 50%, #0000 95%, #000),
+      radial-gradient(12px at center, #0000 95%, #000),
+      radial-gradient(12px at right 15px top 50%, #0000 95%, #000);
+    -webkit-mask: var(--mask);
+            mask: var(--mask);
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+    animation: l2 1s infinite alternate;
+  }
+  .loader:before,
+  .loader:after {
+    content: "";
+    grid-area: 1/1;
+    height: 30px;
+    aspect-ratio: 1;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .loader:after {
+    margin-left: auto;
+  }
+  @keyframes l2 {
+    to {
+      width: 50px;
+    }
+  } */

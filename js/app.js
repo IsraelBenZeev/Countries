@@ -9,6 +9,11 @@ const getUrlByName = (_name) => {
 
 export const renderInStart = () => {
     restartCards();
+    const cards = document.querySelector(".cards");
+
+    cards.innerHTML = `
+           <img id="loading" src="./files/loading.webp" alt="">
+           `
     const countries = ["israel", "france", "united states", "thailand"];
     countries.forEach(element => {
         doApi(getUrlByName(element));
@@ -16,29 +21,47 @@ export const renderInStart = () => {
 }
 const creatObj = (_item) => {
     const coin = Object.keys(_item.currencies);
-    const country = new Country(_item.name.common, _item.population, _item.region, _item.languages, coin, _item.capital[0], _item.flags)
+    const country = new Country(_item.name.common, _item.population, _item.region, _item.languages, coin, _item.capital[0], _item.flags, _item.capitalInfo.latlng, _item.maps.googleMaps);
     country.render();
 }
 const renderBySearch = (_arrCountries) => {
     const search = document.querySelector("#search_id");
     const select = document.querySelector("#select_id");
+    const cards = document.querySelector(".cards");
+
     search.addEventListener('input', () => {
         restartCards();
         console.log(search.value);
         if (search.value.length > 0) {
-            const result = _arrCountries.find(country =>
+            const results = _arrCountries.filter(country =>
                 country.toLowerCase().startsWith(search.value.toLowerCase())
             );
-            if (result) {
+            if (results.length > 0) {
+                cards.innerHTML = `
+                <div id="loading" class="loader"></div>
+                `
+                // <img id="loading" src="./files/loading.webp" alt="" w-100>
+
                 // console.log("start with");
-                doApi(getUrlByName(result));
+                results.forEach(element => {
+                    doApi(getUrlByName(element));
+
+                });
             }
             else {
-                const cards = document.querySelector(".cards");
-                cards.innerHTML = "this countri is not found";
+                console.log("this countri is not found 😒");
+                const notFound = document.createElement("img")
+                // notFound.src = ""
+
+                // const cards = document.querySelector(".cards");
+                cards.innerHTML = `
+                <img id="not-found" src="./files/not_found.gif" alt="" w-100>
+           `
+                // cards.innerHTML = "this countri is not found 😒";
             }
         }
         else {
+            select.value = ""
             if (select.value) doApi(getUrlByName(select.value));
             else renderInStart();
         }
@@ -46,12 +69,14 @@ const renderBySearch = (_arrCountries) => {
 }
 const renderBySelect = () => {
     const select = document.querySelector("#select_id");
-    // const cards = document.querySelector(".cards");
-    // cards.innerHTML = `
-    // <img src="./files/loading.webp" alt="">
-    // `
+    const cards = document.querySelector(".cards");
     select.addEventListener('change', () => {
         restartCards();
+        cards.innerHTML = `
+            <div id="loading" class="loader"></div>
+
+        `
+        // <img id="loading" src="./files/loading.webp" alt="">
         console.log(select.value);
         doApi(getUrlByName(select.value))
     })
@@ -64,14 +89,19 @@ const doApi = (_url) => {
             }
             return response.json()
                 .then(data => {
+                    if(data[0].name.common.startsWith("United States Minor Outlying Islands") || data[0].name.common.startsWith("Isra")){
+                    // if(data[0].name.common.startsWith("Bouvet") || data[0].name.common.startsWith("Isra")){
 
+                        console.log(JSON.stringify(data, null, 2));
+                    }
+                    
                     creatObj(data[0])
                     // const cards = document.querySelector(".cards");
                     // cards.innerHTML = ""
                 })
-                .catch(err => {
-                    console.log(`error: ${err}`);
-                })
+                // .catch(err => {
+                //     console.log(`error: ${err}`);
+                // })
         })
 }
 
@@ -100,6 +130,7 @@ const doApi2 = (_url) => {
         return response.json()
             .then(data => {
                 const arrCountries = listCountries(data);
+                arrCountries.sort();
                 mekeOptinInSelect(arrCountries)
                 renderBySearch(arrCountries);
                 renderBySelect();
@@ -112,3 +143,206 @@ const doApi2 = (_url) => {
 
 doApi2(getUrlAllNames())
 renderInStart();
+
+
+
+
+
+
+
+
+
+
+
+
+
+// [
+//     {
+//       "name": {
+//         "common": "Israel",
+//         "official": "State of Israel",
+//         "nativeName": {
+//           "ara": {
+//             "official": "دولة إسرائيل",
+//             "common": "إسرائيل"
+//           },
+//           "heb": {
+//             "official": "מדינת ישראל",
+//             "common": "ישראל"
+//           }
+//         }
+//       },
+//       "tld": [
+//         ".il"
+//       ],
+//       "cca2": "IL",
+//       "ccn3": "376",
+//       "cca3": "ISR",
+//       "cioc": "ISR",
+//       "independent": true,
+//       "status": "officially-assigned",
+//       "unMember": true,
+//       "currencies": {
+//         "ILS": {
+//           "name": "Israeli new shekel",
+//           "symbol": "₪"
+//         }
+//       },
+//       "idd": {
+//         "root": "+9",
+//         "suffixes": [
+//           "72"
+//         ]
+//       },
+//       "capital": [
+//         "Jerusalem"
+//       ],
+//       "altSpellings": [
+//         "IL",
+//         "State of Israel",
+//         "Medīnat Yisrā'el"
+//       ],
+//       "region": "Asia",
+//       "subregion": "Western Asia",
+//       "languages": {
+//         "ara": "Arabic",
+//         "heb": "Hebrew"
+//       },
+//       "latlng": [
+//         31.47,
+//         35.13
+//       ],
+//       "landlocked": false,
+//       "borders": [
+//         "EGY",
+//         "JOR",
+//         "LBN",
+//         "PSE",
+//         "SYR"
+//       ],
+//       "area": 20770,
+//       "demonyms": {
+//         "eng": {
+//           "f": "Israeli",
+//           "m": "Israeli"
+//         },
+//         "fra": {
+//           "f": "Israélienne",
+//           "m": "Israélien"
+//         }
+//       },
+//       "flag": "🇮🇱",
+//       "maps": {
+//         "googleMaps": "https://goo.gl/maps/6UY1AH8XeafVwdC97",
+//         "openStreetMaps": "https://www.openstreetmap.org/relation/1473946"
+//       },
+//       "population": 9216900,
+//       "gini": {
+//         "2016": 39
+//       },
+//       "fifa": "ISR",
+//       "car": {
+//         "signs": [
+//           "IL"
+//         ],
+//         "side": "right"
+//       },
+//       "timezones": [
+//         "UTC+02:00"
+//       ],
+//       "continents": [
+//         "Asia"
+//       ],
+//       "flags": {
+//         "png": "https://flagcdn.com/w320/il.png",
+//         "svg": "https://flagcdn.com/il.svg",
+//         "alt": "The flag of Israel has a white field with a blue hexagram — the Magen David — centered between two equal horizontal blue bands situated near the top and bottom edges of the field."
+//       },
+//       "coatOfArms": {
+//         "png": "https://mainfacts.com/media/images/coats_of_arms/il.png",
+//         "svg": "https://mainfacts.com/media/images/coats_of_arms/il.svg"
+//       },
+//       "startOfWeek": "sunday",
+//       "capitalInfo": {
+//         "latlng": [
+//           31.77,
+//           35.23
+//         ]
+//       },
+//       "postalCode": {
+//         "format": "#####",
+//         "regex": "^(\\d{5})$"
+//       }
+//     }
+//   ]
+
+
+// [
+//     {
+//       "name": {
+//         "common": "Bouvet Island",
+//         "official": "Bouvet Island",
+//         "nativeName": {
+//           "nor": {
+//             "official": "Bouvetøya",
+//             "common": "Bouvetøya"
+//           }
+//         }
+//       },
+//       "tld": [
+//         ".bv"
+//       ],
+//       "cca2": "BV",
+//       "ccn3": "074",
+//       "cca3": "BVT",
+//       "independent": false,
+//       "status": "officially-assigned",
+//       "unMember": false,
+//       "idd": {
+//         "root": "+4",
+//         "suffixes": [
+//           "7"
+//         ]
+//       },
+//       "altSpellings": [
+//         "BV",
+//         "Bouvetøya",
+//         "Bouvet-øya"
+//       ],
+//       "region": "Antarctic",
+//       "languages": {
+//         "nor": "Norwegian"
+//       },
+//       "latlng": [
+//         54.4208,
+//         3.3464
+//       ],
+//       "landlocked": false,
+//       "area": 49,
+//       "flag": "🇧🇻",
+//       "maps": {
+//         "googleMaps": "https://goo.gl/maps/7WRQAEKZb4uK36yi9",
+//         "openStreetMaps": "https://www.openstreetmap.org/way/174996681"
+//       },
+//       "population": 0,
+//       "car": {
+//         "signs": [
+//           ""
+//         ],
+//         "side": "right"
+//       },
+//       "timezones": [
+//         "UTC+01:00"
+//       ],
+//       "continents": [
+//         "Antarctica"
+//       ],
+//       "flags": {
+//         "png": "https://flagcdn.com/w320/bv.png",
+//         "svg": "https://flagcdn.com/bv.svg"
+//       },
+//       "coatOfArms": {},
+//       "startOfWeek": "monday",
+//       "capitalInfo": {}
+//     }
+//   ]

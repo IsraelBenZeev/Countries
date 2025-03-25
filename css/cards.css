@@ -1,39 +1,96 @@
 @import url("colors.css");
-.cards{
-    /* border: 3px solid rgb(242, 255, 0); */
-    padding: 5px;
-    /* display: grid;
+
+.cards {
+  /* border: 3px solid rgb(242, 255, 0); */
+  padding: 5px;
+  /* display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr; */
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
-.myCard{
-    padding: 5px;
-    border: 1px solid silver;
-    border: 2px solid rgba(33, 37, 41, 0.555);
-    box-shadow: 5px 5px 10px 1px #000000;
-    border-radius: 6px;
-    background-color: rgba(240, 255, 255, 0.463);
-    width: fit-content;
-    /* height: 280px; */
-    button{
-        width: 100%;
-    }
+
+.myCard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 5px;
+  border: 1px solid silver;
+  border: 2px solid rgba(33, 37, 41, 0.555);
+  box-shadow: 5px 5px 10px 1px #000000;
+  border-radius: 6px;
+  background-color: rgba(240, 255, 255, 0.463);
+  width: fit-content;
+  gap: 5px;
+  /* height: 280px; */
+  transform: scale(0);
+  /* מתחיל מנקודה קטנה */
+  animation: grow 0.5s ease-out forwards;
+
+  
 }
-#name_id{
-    /* text-align: center; */
-    font-size: xx-large;
-    color: white;
-    background-color: rgb(33, 37, 41);
-    border-radius: 3px;
+.body_class{
+  color: rgb(33, 37, 41);
+  font-weight: bold;
+  img{
+    width: 300px;
+    height: 200px;
+    border-radius: 5px;
+
+  }
 }
-.flag{
-    /* border: 3px solid rgb(0, 187, 255); */
-    width: 100%;
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.left {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  position: relative;
+  flex-direction: column;
+  border: 1px solid silver;
+  /* border-radius: 5px; */
+  /* border: 3px solid red; */
+  img{
+    border-radius: 5px;
+  }
+  button {
+    width: 45%;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+}
+#name_id {
+  /* text-align: center; */
+  
+  padding: 0px 6px;
+  font-size: xx-large;
+  color: white;
+  background-color: rgb(33, 37, 41);
+  border-radius: 3px;
+}
+.right {
+  border-radius: 4px;
+  /* border: 3px solid gold; */
+  min-height: 200px;
+  min-width: 200px;
+}
+
+
+.flag {
+  /* border: 3px solid rgb(0, 187, 255); */
+  width: 100%;
 }
