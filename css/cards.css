@@ -173,7 +173,7 @@
   border: 3px solid rgb(0, 187, 255);
   width: 100%;
 } */
- @media(max-width: 480px){
+ @media(max-width: 640px){
   main{
     /* border: 3px solid red; */
   }
@@ -181,7 +181,7 @@
     top: 10%;
     width: 85%;
     /* align-self: center; */
-    justify-self: center;
+    /* justify-self: center; */
     /* border: 3px solid red; */
   }
   #pop_content{
@@ -209,6 +209,17 @@
     /* width: 65%; */
     width: 75%;
     padding: 0 10px;
-    
   }
+  .modal-dialog {
+    top: 10%;
+    width: 85%;
+    margin: 0 auto; /* מרכוז אופקי */
+    left: 0;
+    right: 0;
+}
+
+.modal-content {
+    margin: 0 auto; /* מרכוז נוסף */
+    width: 100%;
+}
  }
