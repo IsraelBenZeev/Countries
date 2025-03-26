@@ -10,17 +10,15 @@ class Country {
         this.flag = _flag;
         this.points = _points;
         this.link_map = _link_map;
+
     }
     render() {
-        // const main = document.querySelector("main");
-        // const container = document.querySelector(".myContainer");
+        this.creatModalWithtMoreInfo()
         const loading = document.querySelector("#loading");
-
         const card = document.createElement("div");
-        const body = document.createElement("div");
-        body.className = "body_class"
+        const bodyCard = document.createElement("div");
+        bodyCard.className = "body_class"
         const cards = document.querySelector(".cards");
-        // const cards = document.createElement("div");
         card.classList = "myCard"
         cards.classList = "cards"
         const flag = document.createElement("img");
@@ -28,84 +26,72 @@ class Country {
         flag.src = this.flag.png;
         const name = document.createElement("div");
         name.textContent = this.name;
-        body.append(flag, name)
-        card.append(body);
-        cards.appendChild(card)
+        card.append(bodyCard);
+        const buttonOpenModal = document.createElement("div");
+        buttonOpenModal.innerHTML = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popCard">More info</button>`
+        bodyCard.append(flag, name, buttonOpenModal)
+        cards.append(card)
         card.addEventListener('click', () => {
-            console.log("entered");
-            this.renderPop();
+            this.updatePop(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map)
+    
         })
         if (loading) loading.classList = "hide";
-
     }
-    creatMapWithPoints(a, b){
-        var map = L.map('map').setView([a, b], 7);
-
-        // שימוש באריחים של גוגל מפות
-        var googleLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], // שרתים של גוגל
-          attribution: 'Map data © Google'
-        });
-      
-        googleLayer.addTo(map);
+    
+    updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map) {
+        console.log("link map: " + _link_map);
+    
+        document.querySelector("#name_id").textContent = _name;
+        document.querySelector("#pop_content").innerHTML = `
+            <div id="left">
+            <div><img id="flag" src="${_flag.png}" class="d-block"></img></div>
+            <div id="info"><i class="fa fa-users" aria-hidden="true"></i> pop: ${_pop.toLocaleString()}</div>
+            <div id="info"><i class="fa fa-globe" aria-hidden="true"></i> region: ${_region}</div>
+            <div id="info"><i class="fa fa-language" aria-hidden="true"></i> languages: ${Object.values(_languages).join(", ")}</div>
+            <div id="info"><i class="fa fa-database" aria-hidden="true"></i> coin: ${_coin}</div>
+            <div id="info"><i class="fa fa-university" aria-hidden="true"></i> capital: ${_capital}</div>
+            </div>
+            <div id="right">
+            <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed" frameborder="0"></iframe>
+            <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
+    </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
+            </div>
+            
+    
+    `;
     }
-    renderPop() {
-
-
-
-        // const main = document.querySelector("main");
-        const arrLan = Object.keys(this.languages);
+    
+    creatModalWithtMoreInfo() {
+        console.log(" entered to creatModalWithtMoreInfo");
+    
+        // const arrLan = Object.keys(this.languages);
+        const modal = document.createElement("div");
         let languagesStr = "";
-        arrLan.forEach((key, index) => {
-            languagesStr += this.languages[key];
-            if (index < arrLan.length - 1) {
-                languagesStr += ", ";
-            }
-        });
-
-        const container = document.querySelector(".myContainer");
-        const card = document.createElement("div");
-        const left = document.createElement("div");
-        left.classList = "left"
-        const right = document.createElement("div");
-        right.classList = "right"
-        const cards = document.querySelector(".cards");
-        // const cards = document.createElement("div");
-        card.classList = "myCard"
-        cards.classList = "cards"
-        cards.innerHTML = ""
-        const information = document.createElement("div");
-        const flag = document.createElement("img");
-        information.innerHTML = `
-        <span id="name_id">${this.name}</span><br>
-        <i class="fa fa-users" aria-hidden="true"></i> pop: ${this.pop.toLocaleString()}<br>
-        <i class="fa fa-globe" aria-hidden="true"></i> region: ${this.region}<br>
-        <i class="fa fa-language" aria-hidden="true"></i> langueges: ${languagesStr}<br>
-        <i class="fa fa-database" aria-hidden="true"></i> coin: ${this.coin}<br>
-        <i class="fa fa-university" aria-hidden="true"></i> capital: ${this.capital}
-        `
-        flag.src = this.flag.png;
-        const back = document.createElement("button");
-        back.classList = "btn btn-dark";
-        back.textContent = "back";
-        back.addEventListener('click', () => {
-            console.log("back entered");
-            renderInStart();
-
-        })
-        // right.innerHTML = "hyhyredrjhmjhkjrnhoiujgownguobgiphwbihvbugbvugbriyug"
-        // right.innerHTML = 
-        right.innerHTML = `
-            <div id="containerMap"><a href=${this.link_map}><div id="map" style="width: 100%; height: 500px;"></div></a></div>
-        `
-        setTimeout(() => this.creatMapWithPoints(this.points[0], this.points[1]), 0);
-
-
-        container.appendChild(cards);
-        left.append(flag, information, back);
-        card.append(left, right)
-        cards.appendChild(card)
-
+        modal.innerHTML = `
+    <div class="modal-xl modal fade" id="popCard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="title" class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><span id="name_id">${this.name}</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="pop_content" class="modal-body">
+                 
+                </div>
+                <div id="footer_pop_id" class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+        // setTimeout(() => {
+        //     const popDiv = document.querySelector("#pop_content")
+    
+        //     if (popDiv) console.log("pop div");
+        //     else console.log("no pop div");
+        // }, 0);
+        document.body.appendChild(modal)
     }
 }
 export default Country;

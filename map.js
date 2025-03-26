@@ -1,13 +1,37 @@
-  // אתחול המפה במרכז ירושלים
-  var map = L.map('map').setView([31.47, 35.13], 8);
-
-  // שימוש באריחים של גוגל מפות
-  var googleLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], // שרתים של גוגל
-    attribution: 'Map data © Google'
-  });
-
-  googleLayer.addTo(map);
-
-  //         31.47,
-//         35.13
+const makeDivWithButton = () => {
+  const b = document.querySelector(".button");
+  b.innerHTML = `
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+  `
+}
+const modal = () => {
+  const modalDiv = document.createElement("div");
+  if (modalDiv) {
+    modalDiv.innerHTML = `
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    content
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  `
+  document.body.appendChild(modalDiv);
+  }
+  else console.log("not created");
+  
+}
+makeDivWithButton();
+modal()

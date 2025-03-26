@@ -9,6 +9,9 @@
 .hide{
     display:  none;
 }
+#icon_google_map{
+    width: 20px;
+}
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 40px;

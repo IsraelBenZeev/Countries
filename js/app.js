@@ -4,17 +4,16 @@ const restartCards = () => {
     cards.innerHTML = "";
 }
 const getUrlByName = (_name) => {
-    return `https://restcountries.com/v3.1/name/${_name}`
+    return `https://restcountries.com/v3.1/name/${_name}?fullText=true`
 }
 
 export const renderInStart = () => {
     restartCards();
     const cards = document.querySelector(".cards");
 
-    cards.innerHTML = `
-           <img id="loading" src="./files/loading.webp" alt="">
-           `
-    const countries = ["israel", "france", "united states", "thailand"];
+    cards.innerHTML = `<div id="loading" class="loader"></div>`
+    // <img id="loading" src="./files/loading.webp" alt="">
+    const countries = ["israel", "france", "United States", "thailand"];
     countries.forEach(element => {
         doApi(getUrlByName(element));
     });
@@ -35,7 +34,11 @@ const renderBySearch = (_arrCountries) => {
         if (search.value.length > 0) {
             const results = _arrCountries.filter(country =>
                 country.toLowerCase().startsWith(search.value.toLowerCase())
+               
             );
+            console.log("results: "+JSON.stringify(results, null, 2));
+            
+            
             if (results.length > 0) {
                 cards.innerHTML = `
                 <div id="loading" class="loader"></div>
@@ -89,10 +92,11 @@ const doApi = (_url) => {
             }
             return response.json()
                 .then(data => {
-                    if(data[0].name.common.startsWith("United States Minor Outlying Islands") || data[0].name.common.startsWith("Isra")){
+                    // if(data[0].name.common.startsWith("United States Minor Outlying Islands") || data[0].name.common.startsWith("Isra")){
                     // if(data[0].name.common.startsWith("Bouvet") || data[0].name.common.startsWith("Isra")){
+                    if(data[0].name.common.startsWith("United States") && ! data[0].name.common.includes("Minor Outlying Islands")){
 
-                        console.log(JSON.stringify(data, null, 2));
+                        // console.log(JSON.stringify(data, null, 2));
                     }
                     
                     creatObj(data[0])
@@ -108,12 +112,12 @@ const doApi = (_url) => {
 const listCountries = (_data) => {
     let arr = [];
     _data.forEach(element => {
-        arr.push(element.name.common)
+        if(element.unMember && ! element.name.common.includes("Virgin Islands")) arr.push(element.name.common)
     });
     return arr;
 }
 const getUrlAllNames = () => {
-    return `https://restcountries.com/v3.1/all?fields=name`
+    return `https://restcountries.com/v3.1/all?fields=name,unMember`
 }
 
 const mekeOptinInSelect = (_arr) => {
@@ -130,6 +134,8 @@ const doApi2 = (_url) => {
         return response.json()
             .then(data => {
                 const arrCountries = listCountries(data);
+                // console.log("arr: "+arrCountries.filter(item => item === "United States"));
+                
                 arrCountries.sort();
                 mekeOptinInSelect(arrCountries)
                 renderBySearch(arrCountries);
