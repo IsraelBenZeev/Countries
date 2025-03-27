@@ -12,7 +12,6 @@ export const renderInStart = () => {
     const cards = document.querySelector(".cards");
 
     cards.innerHTML = `<div id="loading" class="loader"></div>`
-    // <img id="loading" src="./files/loading.webp" alt="">
     const countries = ["israel", "france", "United States", "thailand"];
     countries.forEach(element => {
         doApi(getUrlByName(element));
@@ -43,11 +42,12 @@ const renderBySearch = (_arrCountries) => {
                 cards.innerHTML = `
                 <div id="loading" class="loader"></div>
                 `
+                renderListResults(results)
                 results.forEach(element => {
                     console.log("element: "+ element+", ");
-                    results_countries.innerHTML += `
-                    <option value="${element}">
-                    `
+                    // results_countries.innerHTML += `
+                    // <option value="${element}">
+                    // `
                     doApi(getUrlByName(element));
 
                 });
@@ -68,10 +68,10 @@ const renderBySearch = (_arrCountries) => {
         }
     })
 }
-const renderListResults = (_list, _elment_for_render) =>{
-
+const renderListResults = (_list) =>{
+    const results_countries = document.querySelector("#results_countries");
     _list.forEach(element => {
-        _elment_for_render.innerHTML += `<option value="${element}">`
+        results_countries.innerHTML += `<option value="${element}">`
     });
 }
 const renderBySelect = () => {

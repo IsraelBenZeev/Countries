@@ -10,7 +10,6 @@ class Country {
         this.flag = _flag;
         this.points = _points;
         this.link_map = _link_map;
-
     }
     render() {
         this.creatModalWithtMoreInfo()
