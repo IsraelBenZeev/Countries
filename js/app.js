@@ -6,8 +6,11 @@ const restartCards = () => {
 const getUrlByName = (_name) => {
     return `https://restcountries.com/v3.1/name/${_name}?fullText=true`
 }
+const getUrlByCode = (_code) => {
+    return `https://restcountries.com/v3.1/alpha/${_code}`
+}
 
-export const renderInStart = () => {
+const renderInStart = () => {
     restartCards();
     const cards = document.querySelector(".cards");
 
@@ -17,9 +20,19 @@ export const renderInStart = () => {
         doApi(getUrlByName(element));
     });
 }
+const renderCountriesInNavbar = () => {
+    const countries = document.querySelectorAll(".countries_in_navbar");
+    countries.forEach(element => {
+        element.addEventListener('click', () => {
+            restartCards();
+            console.log(`entered ${element.textContent}`);
+            doApi(getUrlByCode(element.textContent))
+        })
+    });
+}
 const creatObj = (_item) => {
     const coin = Object.keys(_item.currencies);
-    const country = new Country(_item.name.common, _item.population, _item.region, _item.languages, coin, _item.capital[0], _item.flags, _item.capitalInfo.latlng, _item.maps.googleMaps);
+    const country = new Country(_item.name.common, _item.population, _item.region, _item.languages, coin, _item.capital[0], _item.flags, _item.capitalInfo.latlng, _item.maps.googleMaps, _item.borders);
     country.render();
 }
 const renderBySearch = (_arrCountries) => {
@@ -27,7 +40,7 @@ const renderBySearch = (_arrCountries) => {
     const select = document.querySelector("#select_id");
     const cards = document.querySelector(".cards");
     const results_countries = document.querySelector("#results_countries");
-    
+
     search.addEventListener('input', () => {
         results_countries.innerHTML = ""
         restartCards();
@@ -35,7 +48,6 @@ const renderBySearch = (_arrCountries) => {
         if (search.value.length > 0) {
             const results = _arrCountries.filter(country =>
                 country.toLowerCase().startsWith(search.value.toLowerCase())
-               
             );
             // console.log("results: "+JSON.stringify(results, null, 2));
             if (results.length > 0) {
@@ -44,7 +56,7 @@ const renderBySearch = (_arrCountries) => {
                 `
                 renderListResults(results)
                 results.forEach(element => {
-                    console.log("element: "+ element+", ");
+                    console.log("element: " + element + ", ");
                     // results_countries.innerHTML += `
                     // <option value="${element}">
                     // `
@@ -68,7 +80,7 @@ const renderBySearch = (_arrCountries) => {
         }
     })
 }
-const renderListResults = (_list) =>{
+const renderListResults = (_list) => {
     const results_countries = document.querySelector("#results_countries");
     _list.forEach(element => {
         results_countries.innerHTML += `<option value="${element}">`
@@ -89,6 +101,9 @@ const renderBySelect = () => {
     })
 }
 const doApi = (_url) => {
+
+    console.log("enter to doAPI");
+
     fetch(_url)
         .then(response => {
             if (!response.ok) {
@@ -97,26 +112,26 @@ const doApi = (_url) => {
             return response.json()
                 .then(data => {
                     // if(data[0].name.common.startsWith("United States Minor Outlying Islands") || data[0].name.common.startsWith("Isra")){
-                    // if(data[0].name.common.startsWith("Bouvet") || data[0].name.common.startsWith("Isra")){
-                    if(data[0].name.common.startsWith("United States") && ! data[0].name.common.includes("Minor Outlying Islands")){
+                    if (data[0].name.common.startsWith("Un") || data[0].name.common.startsWith("Isra")) {
+                        // if(data[0].name.common.startsWith("United States") && ! data[0].name.common.includes("Minor Outlying Islands")){
 
                         // console.log(JSON.stringify(data, null, 2));
                     }
-                    
+
                     creatObj(data[0])
                     // const cards = document.querySelector(".cards");
                     // cards.innerHTML = ""
                 })
-                // .catch(err => {
-                //     console.log(`error: ${err}`);
-                // })
+            // .catch(err => {
+            //     console.log(`error: ${err}`);
+            // })
         })
 }
 
 const listCountries = (_data) => {
     let arr = [];
     _data.forEach(element => {
-        if(element.unMember && ! element.name.common.includes("Virgin Islands")) arr.push(element.name.common)
+        if (element.unMember && !element.name.common.includes("Virgin Islands")) arr.push(element.name.common)
     });
     return arr;
 }
@@ -139,7 +154,7 @@ const doApi2 = (_url) => {
             .then(data => {
                 const arrCountries = listCountries(data);
                 // console.log("arr: "+arrCountries.filter(item => item === "United States"));
-                
+
                 arrCountries.sort();
                 mekeOptinInSelect(arrCountries)
                 renderBySearch(arrCountries);
@@ -150,13 +165,13 @@ const doApi2 = (_url) => {
             })
     })
 }
-
+renderCountriesInNavbar();
 doApi2(getUrlAllNames())
 renderInStart();
 
 
 
-
+export {doApi, getUrlByCode, restartCards};
 
 
 

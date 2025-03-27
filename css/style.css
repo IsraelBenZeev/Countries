@@ -31,6 +31,18 @@ header {
     align-items: center;
 }
 
+.countries_in_navbar {
+    color: white;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    transition: all 1s ease-in;
+}
+
+.countries_in_navbar:hover {
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
 #hamburger {
     transition: all 0.2s ease-in-out;
     border: 3px solid white;
@@ -38,7 +50,7 @@ header {
 
 #hamburger:hover {
     border: 3px solid white;
-    
+
 }
 
 .navbar-toggler-icon {
@@ -51,7 +63,7 @@ header {
     /* background-color: red; */
     /* opacity: 20%; */
     width: 100%;
-    
+
 }
 
 #logo {
@@ -73,7 +85,7 @@ header {
     /* שומר על יחס התמונה */
 }
 
-li {
+/* li {
     transition: all 0.4s ease-in;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
@@ -82,7 +94,7 @@ li {
 li:hover {
     border-top-color: white;
     border-bottom-color: white;
-}
+} */
 
 #ul_id {
     /* border: 3px solid red; */
@@ -95,9 +107,8 @@ li:hover {
     justify-content: center;
     align-items: center;
 }
-#search_id{
-    
-}
+
+#search_id {}
 
 #select_id {
     width: 130px;
@@ -136,14 +147,18 @@ main {
 footer {
     /* height: 10vh; */
 }
-body{
+
+body {
     /* width: 85vw; */
 }
-@media(max-width: 480px){
-    #nav_id{
+
+@media(max-width: 480px) {
+    #nav_id {
         /* width: 100%; */
     }
-    #select_id, #search_id{
+
+    #select_id,
+    #search_id {
         width: 40%;
     }
 }

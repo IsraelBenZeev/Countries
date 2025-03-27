@@ -1,6 +1,7 @@
-import { renderInStart } from "./app.js";
+// import { renderInStart } from "./app.js";
+import { doApi, getUrlByCode, restartCards } from "./app.js";
 class Country {
-    constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map) {
+    constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map, _borders) {
         this.name = _name;
         this.pop = _pop;
         this.region = _region;
@@ -10,8 +11,19 @@ class Country {
         this.flag = _flag;
         this.points = _points;
         this.link_map = _link_map;
+        this.borders = _borders;
+    }
+    bordersToStr(_borders) {
+
+        // <a href="#" class="border-country" data-cca3="${item}">${item}</a>
+        return _borders.map(item => `
+            <button id="close_enter_another_countri" type="button" class="btn btn-secondary" data-bs-dismiss="modal">${item}</button>
+            `
+        ).join("");
     }
     render() {
+        // console.log(this.bordersToStr(this.borders));
+
         this.creatModalWithtMoreInfo()
         const loading = document.querySelector("#loading");
         const card = document.createElement("div");
@@ -32,13 +44,13 @@ class Country {
         bodyCard.append(flag, name, buttonOpenModal)
         cards.append(card)
         card.addEventListener('click', () => {
-            this.updatePop(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map)
+            this.updatePop(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map, this.borders)
 
         })
         if (loading) loading.classList = "hide";
     }
 
-    updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map) {
+    updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
         console.log("link map: " + _link_map);
 
         document.querySelector("#name_id").textContent = _name;
@@ -50,6 +62,7 @@ class Country {
         <div id="info"><i class="fa fa-language"></i> languages: ${Object.values(_languages).join(", ")}</div>
         <div id="info"><i class="fa fa-database"></i> coin: ${_coin}</div>
         <div id="info"><i class="fa fa-university"></i> capital: ${_capital}</div>
+        <div id="info" class="borders"> ${this.bordersToStr(_borders)}</div>
     </div>
     <div id="right">
         <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed"
@@ -59,6 +72,14 @@ class Country {
     </div>
             
     `;
+        const borders = document.querySelector(".borders");
+        borders.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            console.log("event: " + e.target.textContent.trim());
+            restartCards();
+            doApi(getUrlByCode(e.target.textContent.trim()));
+        })
     }
 
     creatModalWithtMoreInfo() {

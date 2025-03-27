@@ -133,6 +133,17 @@
     margin-right: 10px;
   }
 }
+.borders{
+  /* border: 3px solid red; */
+  gap: 0;
+  button{
+    /* border: 3px solid red; */
+    text-decoration: underline;
+    padding: 0;
+    background-color: rgba(245, 222, 179, 0);
+    border: none;
+  }
+}
 
 #right {
   flex: 1;flex-direction: column;
@@ -146,10 +157,11 @@
 }
 #link_map{
   padding: 1px;
-  background-color: rgb(108, 117, 125);
+  background-color: var(--secondBary);
   color: white;
   border-radius: 5px;
   text-decoration: none;
+  text-decoration: underline;
   transition: all 0.2s ease-out;
 }
 #link_map:hover{
