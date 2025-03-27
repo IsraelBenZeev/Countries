@@ -1,4 +1,6 @@
 :root{
-    --primary: blue;
-    --secondBary: blue;
+    /* --primary: red; */
+    --primary: rgb(15, 23, 34);
+
+    --secondBary: rgb(10, 61, 90);
 }

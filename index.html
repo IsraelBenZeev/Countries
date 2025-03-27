@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,9 +22,10 @@
 
 <body>
   <header>
-    <nav id="nav_id" class="navbar navbar-expand-lg bg-dark">
+    <nav id="nav_id" class="navbar navbar-expand-lg">
       <div id="header_id" class="container-fluid">
-        <div id="logo"><a href="index.html"><img src="./files/logo3.png"></img></a></div>
+        <a href="index.html"><img id="logo" src="./files/logo3.png"></img></a>
+        <!-- <div id="logo"><a href="index.html"><img src="./files/logo3.png"></img></a></div> -->
         <button id="hamburger" class="navbar-toggler" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
           aria-label="Toggle navigation">
@@ -40,29 +42,14 @@
             <li class="nav-item">
               <a id="a_id" class="nav-link text-light" href="#">france</a>
             </li>
-            <!-- <li class="nav-item">
-                    <a id="a_id" class="nav-link text-light" href="#">UK</a>
-                  </li> -->
-            <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Link
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </li> -->
-            <!-- <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Link</a>
-                  </li> -->
           </ul>
+
           <div id="serches" class="d-flex" role="search">
+            <!-- <input id="search_id" class="form-control"  id="exampleDataList" placeholder="Type to search..."> -->
             <select class="form-select" aria-label="Default select example" id="select_id"> </select>
-            <input id="search_id" class="form-control me-2" type="search" placeholder="Search country"
-              aria-label="Search">
-            <button class="btn btn-outline-light">Search</button>
+            <input id="search_id" class="form-control me-2" list="results_countries" type="search" placeholder="Search country" aria-label="Search">
+            <datalist id="results_countries">
+            </datalist>
           </div>
         </div>
       </div>

@@ -1,17 +1,13 @@
 @import url("colors.css");
 
 .cards {
-  /* border: 3px solid rgb(242, 255, 0); */
   padding: 5px;
-  /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr; */
-  flex-wrap: wrap;
   width: 100%;
   gap: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap ;
 
 }
 
@@ -24,28 +20,10 @@
   box-shadow: 5px 5px 10px 1px #000000;
   border-radius: 6px;
   background-color: rgba(240, 255, 255, 0.463);
-  /* width: ; */
   gap: 5px;
-  /* height: 280px; */
   transform: scale(0);
-  /* מתחיל מנקודה קטנה */
   animation: grow 0.5s ease-out forwards;
-
-
 }
-
-.body_class {
-  color: rgb(33, 37, 41);
-  font-weight: bold;
-
-  img {
-    width: 250px;
-    height: 150px;
-    border-radius: 5px;
-
-  }
-}
-
 @keyframes grow {
   0% {
     transform: scale(0);
@@ -54,6 +32,37 @@
   100% {
     transform: scale(1);
   }
+}
+
+.body_card {
+  /* border: 3px solid red; */
+  color: rgb(33, 37, 41);
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  img {
+    width: 250px;
+    height: 150px;
+    border-radius: 5px;
+  }
+}
+.name_title{
+  font-size: 20px;
+}
+#button_more_info{
+  height: fit-content;
+  padding: 2px;
+  background-color: var(--secondBary);
+  border: none;
+  color: aliceblue;
+  /* width: 50%; */
+  font-size: 15px;
+  margin: auto;
+}
+#button_more_info:hover, #footer_pop_id button:hover{
+  opacity: 80%;
 }
 #popCard{
   /* border: 3px solid red; */
@@ -83,47 +92,39 @@
   /* height: 450px; */
 }
 
-
-
 #name_id {
   /* margin-left: 5px; */
   padding: 0px 15px;
   font-size: xx-large;
   color: white;
-  background-color: rgb(108, 117, 125);
+  /* background-color: rgb(108, 117, 125); */
+  background-color: var(--secondBary);
   border-radius: 8px;
 }
 
 #left {
+  /* border: 3px solid rgb(235, 10, 10); */
   display: flex;
   flex-direction: column;
-  height: 100%;
   flex: 1;
+  height: 100%;
   overflow-y: scroll;
-  /* border: 3px solid rgb(235, 10, 10); */
   gap: 5px;
   
-  
-  /* button {
-    width: 45%;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    } */
   }
   
   #flag {
-    width: 90%;
-    /* height: 150px; */
     /* border: 3px solid rgb(145, 144, 144); */
+    width: 90%;
     border-radius: 10px;
   }
   
 #info {
+  /* border: 3px solid rgb(235, 10, 10); */
   padding: 5px;
   margin-top: 5px;
-  /* border: 3px solid rgb(235, 10, 10); */
-  background-color: rgb(108, 117, 125);
+  background-color: var(--secondBary);
+  /* background-color: rgb(108, 117, 125); */
   border-radius: 5px;
   color: white;
   gap: 5px;
@@ -134,13 +135,7 @@
 }
 
 #right {
-  flex: 1;
-  /* border-radius: 4px;
-  width: 400px; */
-  /* border: 3px solid gold; */
-  /* min-height: 200px;
-  min-width: 200px; */
-  
+  flex: 1;flex-direction: column;
 }
 
 #map_iframe_id {
@@ -166,6 +161,9 @@
 #footer_pop_id {
   /* background-color: rgb(33, 37, 41); */
   padding: 5px;
+  button{
+    background-color: var(--secondBary);
+  }
 }
 
 
@@ -180,6 +178,9 @@
   .modal-dialog{
     top: 10%;
     width: 85%;
+    margin: 0 auto; /* מרכוז אופקי */
+    left: 0;
+    right: 0;
     /* align-self: center; */
     /* justify-self: center; */
     /* border: 3px solid red; */
@@ -187,6 +188,8 @@
   #pop_content{
     flex-direction: column;
     height: 550px;
+    margin: 0 auto; /* מרכוז נוסף */
+    width: 100%;
   }
   #left{
     /* border: 3px solid red; */
@@ -210,16 +213,4 @@
     width: 75%;
     padding: 0 10px;
   }
-  .modal-dialog {
-    top: 10%;
-    width: 85%;
-    margin: 0 auto; /* מרכוז אופקי */
-    left: 0;
-    right: 0;
-}
-
-.modal-content {
-    margin: 0 auto; /* מרכוז נוסף */
-    width: 100%;
-}
  }

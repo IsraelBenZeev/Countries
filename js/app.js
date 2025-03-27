@@ -27,8 +27,10 @@ const renderBySearch = (_arrCountries) => {
     const search = document.querySelector("#search_id");
     const select = document.querySelector("#select_id");
     const cards = document.querySelector(".cards");
-
+    const results_countries = document.querySelector("#results_countries");
+    
     search.addEventListener('input', () => {
+        results_countries.innerHTML = ""
         restartCards();
         console.log(search.value);
         if (search.value.length > 0) {
@@ -36,17 +38,16 @@ const renderBySearch = (_arrCountries) => {
                 country.toLowerCase().startsWith(search.value.toLowerCase())
                
             );
-            console.log("results: "+JSON.stringify(results, null, 2));
-            
-            
+            // console.log("results: "+JSON.stringify(results, null, 2));
             if (results.length > 0) {
                 cards.innerHTML = `
                 <div id="loading" class="loader"></div>
                 `
-                // <img id="loading" src="./files/loading.webp" alt="" w-100>
-
-                // console.log("start with");
                 results.forEach(element => {
+                    console.log("element: "+ element+", ");
+                    results_countries.innerHTML += `
+                    <option value="${element}">
+                    `
                     doApi(getUrlByName(element));
 
                 });
@@ -54,13 +55,10 @@ const renderBySearch = (_arrCountries) => {
             else {
                 console.log("this countri is not found 😒");
                 const notFound = document.createElement("img")
-                // notFound.src = ""
-
                 // const cards = document.querySelector(".cards");
                 cards.innerHTML = `
-                <img id="not-found" src="./files/not_found.gif" alt="" w-100>
+                <img id="not-found" src="./files/not_found.gif" alt="" w-100><br><p style="color: white;">this countri is not found 😒</p>;
            `
-                // cards.innerHTML = "this countri is not found 😒";
             }
         }
         else {
@@ -69,6 +67,12 @@ const renderBySearch = (_arrCountries) => {
             else renderInStart();
         }
     })
+}
+const renderListResults = (_list, _elment_for_render) =>{
+
+    _list.forEach(element => {
+        _elment_for_render.innerHTML += `<option value="${element}">`
+    });
 }
 const renderBySelect = () => {
     const select = document.querySelector("#select_id");

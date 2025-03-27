@@ -17,7 +17,7 @@ class Country {
         const loading = document.querySelector("#loading");
         const card = document.createElement("div");
         const bodyCard = document.createElement("div");
-        bodyCard.className = "body_class"
+        bodyCard.className = "body_card"
         const cards = document.querySelector(".cards");
         card.classList = "myCard"
         cards.classList = "cards"
@@ -25,45 +25,46 @@ class Country {
         flag.classList = "flag"
         flag.src = this.flag.png;
         const name = document.createElement("div");
+        name.classList = "name_title"
         name.textContent = this.name;
         card.append(bodyCard);
         const buttonOpenModal = document.createElement("div");
-        buttonOpenModal.innerHTML = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popCard">More info</button>`
+        buttonOpenModal.innerHTML = `<button id="button_more_info" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#popCard">More info</button>`
         bodyCard.append(flag, name, buttonOpenModal)
         cards.append(card)
         card.addEventListener('click', () => {
             this.updatePop(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map)
-    
+
         })
         if (loading) loading.classList = "hide";
     }
-    
+
     updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map) {
         console.log("link map: " + _link_map);
-    
+
         document.querySelector("#name_id").textContent = _name;
         document.querySelector("#pop_content").innerHTML = `
-            <div id="left">
-            <div><img id="flag" src="${_flag.png}" class="d-block"></img></div>
-            <div id="info"><i class="fa fa-users" aria-hidden="true"></i> pop: ${_pop.toLocaleString()}</div>
-            <div id="info"><i class="fa fa-globe" aria-hidden="true"></i> region: ${_region}</div>
-            <div id="info"><i class="fa fa-language" aria-hidden="true"></i> languages: ${Object.values(_languages).join(", ")}</div>
-            <div id="info"><i class="fa fa-database" aria-hidden="true"></i> coin: ${_coin}</div>
-            <div id="info"><i class="fa fa-university" aria-hidden="true"></i> capital: ${_capital}</div>
-            </div>
-            <div id="right">
-            <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed" frameborder="0"></iframe>
-            <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
-    </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
-            </div>
+    <div id="left">
+        <div><img id="flag" src="${_flag.png}" class="d-block"></img></div>
+        <div id="info"><i class="fa fa-users"></i> pop: ${_pop.toLocaleString()}</div>
+        <div id="info"><i class="fa fa-globe"></i> region: ${_region}</div>
+        <div id="info"><i class="fa fa-language"></i> languages: ${Object.values(_languages).join(", ")}</div>
+        <div id="info"><i class="fa fa-database"></i> coin: ${_coin}</div>
+        <div id="info"><i class="fa fa-university"></i> capital: ${_capital}</div>
+    </div>
+    <div id="right">
+        <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed"
+            frameborder="0"></iframe>
+        <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
+            </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
+    </div>
             
-    
     `;
     }
-    
+
     creatModalWithtMoreInfo() {
         console.log(" entered to creatModalWithtMoreInfo");
-    
+
         // const arrLan = Object.keys(this.languages);
         const modal = document.createElement("div");
         let languagesStr = "";
@@ -85,12 +86,6 @@ class Country {
         </div>
     </div>
     `
-        // setTimeout(() => {
-        //     const popDiv = document.querySelector("#pop_content")
-    
-        //     if (popDiv) console.log("pop div");
-        //     else console.log("no pop div");
-        // }, 0);
         document.body.appendChild(modal)
     }
 }
