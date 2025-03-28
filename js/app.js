@@ -146,7 +146,20 @@ renderCountriesInNavbar();
 doApi2(getUrlAllNames())
 renderInStart();
 
+const changeColorNavbarWhenScroll = ()=>{
 
+    const navbar = document.querySelector("#nav_id");
+    const originalColor = "rgba(15, 23, 34, 0.264)"; 
+    const scrolledColor = "rgba(15, 23, 34, 0.813)"; 
+    window.addEventListener('scroll', ()=>{
+        if (window.scrollY > 0) {
+            navbar.style.backgroundColor = scrolledColor;
+        } else {
+            navbar.style.backgroundColor = originalColor;
+        }
+    })
+}
+changeColorNavbarWhenScroll();
 
 export {doApi, getUrlByCode, restartCards};
 

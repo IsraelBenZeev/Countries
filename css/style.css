@@ -66,12 +66,13 @@ header {
     left: 0;
     z-index: 999;
     /* border: 3px solid rgb(219, 192, 13); */
-    background-color: var(--primary);
+    /* background-color: var(--primary); */
     background-color: rgba(15, 23, 34, 0.264);
+    /* background-color: rgba(15, 23, 34, 0.813); */
     /* background-color: red; */
     /* opacity: 20%; */
     width: 100%;
-
+    
 }
 
 #logo {
@@ -97,16 +98,16 @@ header {
     transition: all 0.4s ease-in;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
-}
-
+    }
+    
 li:hover {
     border-top-color: white;
     border-bottom-color: white;
-} */
-
-#ul_id {
-    /* border: 3px solid red; */
-    gap: 20px;
+    } */
+    
+    #ul_id {
+        /* border: 3px solid red; */
+        gap: 20px;
 }
 
 #serches {
@@ -147,7 +148,6 @@ header {
 }
 
 main {
-    min-height: 75vh;
 }
 
 footer {
@@ -161,8 +161,15 @@ body {
 @media(max-width: 480px) {
     #nav_id {
         /* width: 100%; */
+        /* border: 3px solid red; */
+        background-color: rgba(15, 23, 34, 0.264) !important;
+        /* background-color: red !important; */
     }
-
+    main{
+        min-height: 75vh;
+        margin-top: 100px;
+        
+    }
     #select_id,
     #search_id {
         width: 40%;
