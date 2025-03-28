@@ -2,6 +2,9 @@
 
 body {
     /* width: 99vw; */
+    background-image: url('../files/bg_7.jpg');
+    background-size: cover;
+    background-position: center center;
     width: 100%;
 }
 
@@ -12,7 +15,7 @@ body {
 
 header {
 
-    background-color: rgb(24, 36, 48);
+    /* background-color: rgb(24, 36, 48); */
     /* border:  3px solid lightgreen; */
     /* position: fixed;
     top: 0;
@@ -58,8 +61,13 @@ header {
 }
 
 #nav_id {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
     /* border: 3px solid rgb(219, 192, 13); */
     background-color: var(--primary);
+    background-color: rgba(15, 23, 34, 0.264);
     /* background-color: red; */
     /* opacity: 20%; */
     width: 100%;
@@ -115,11 +123,9 @@ li:hover {
     border-radius: 5px;
 }
 
-main {
+main{
     /* padding: 30px 0; */
-    background-image: url('../files/bg_7.jpg');
-    background-size: cover;
-    background-position: center center;
+    margin-top: 100px;
     width: 100%;
 }
 

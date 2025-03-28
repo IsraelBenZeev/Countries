@@ -1,7 +1,4 @@
-#loading{
-    /* border: 3px solid red; */
-    width: 100px;
-}
+
 #not-found{
     /* border: 3px solid red; */
     width: 200px;
@@ -26,4 +23,19 @@
    33%  {background-position: 0    0,100% 0   ,100% 100%,0 100%;width:60px;height: 60px}
    66%  {background-position: 100% 0,100% 100%,0    100%,0 0   ;width:60px;height: 60px}
    100% {background-position: 100% 0,100% 100%,0    100%,0 0   }
+}
+.loader_on_map{
+    --c:no-repeat linear-gradient(rgb(5, 24, 47) 0 0);
+}
+
+#loading_map_div{
+    /* border: 3px solid red; */
+    width: 180px;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    div{
+        width: 100%;
+    }
 }

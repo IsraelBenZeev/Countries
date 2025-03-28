@@ -13,7 +13,6 @@ const getUrlByCode = (_code) => {
 const renderInStart = () => {
     restartCards();
     const cards = document.querySelector(".cards");
-
     cards.innerHTML = `<div id="loading" class="loader"></div>`
     const countries = ["israel", "france", "United States", "thailand"];
     countries.forEach(element => {
@@ -51,23 +50,15 @@ const renderBySearch = (_arrCountries) => {
             );
             // console.log("results: "+JSON.stringify(results, null, 2));
             if (results.length > 0) {
-                cards.innerHTML = `
-                <div id="loading" class="loader"></div>
-                `
-                renderListResults(results)
+                cards.innerHTML = `<div id="loading" class="loader"></div>`
+                setTimeout(()=> renderListResults(results), 0);
                 results.forEach(element => {
-                    console.log("element: " + element + ", ");
-                    // results_countries.innerHTML += `
-                    // <option value="${element}">
-                    // `
                     doApi(getUrlByName(element));
-
                 });
             }
             else {
                 console.log("this countri is not found 😒");
                 const notFound = document.createElement("img")
-                // const cards = document.querySelector(".cards");
                 cards.innerHTML = `
                 <img id="not-found" src="./files/not_found.gif" alt="" w-100><br><p style="color: white;">this countri is not found 😒</p>;
            `
@@ -91,19 +82,12 @@ const renderBySelect = () => {
     const cards = document.querySelector(".cards");
     select.addEventListener('change', () => {
         restartCards();
-        cards.innerHTML = `
-            <div id="loading" class="loader"></div>
-
-        `
-        // <img id="loading" src="./files/loading.webp" alt="">
-        console.log(select.value);
+        cards.innerHTML = `<div id="loading" class="loader"></div>`
         doApi(getUrlByName(select.value))
     })
 }
 const doApi = (_url) => {
-
     console.log("enter to doAPI");
-
     fetch(_url)
         .then(response => {
             if (!response.ok) {
@@ -111,20 +95,15 @@ const doApi = (_url) => {
             }
             return response.json()
                 .then(data => {
-                    // if(data[0].name.common.startsWith("United States Minor Outlying Islands") || data[0].name.common.startsWith("Isra")){
-                    if (data[0].name.common.startsWith("Un") || data[0].name.common.startsWith("Isra")) {
-                        // if(data[0].name.common.startsWith("United States") && ! data[0].name.common.includes("Minor Outlying Islands")){
-
-                        // console.log(JSON.stringify(data, null, 2));
-                    }
+                    // if (data[0].name.common.startsWith("Un") || data[0].name.common.startsWith("Isra")) {
+                    //     console.log(JSON.stringify(data, null, 2));
+                    // }
 
                     creatObj(data[0])
-                    // const cards = document.querySelector(".cards");
-                    // cards.innerHTML = ""
                 })
-            // .catch(err => {
-            //     console.log(`error: ${err}`);
-            // })
+            .catch(err => {
+                console.log(`error: ${err}`);
+            })
         })
 }
 
@@ -153,8 +132,6 @@ const doApi2 = (_url) => {
         return response.json()
             .then(data => {
                 const arrCountries = listCountries(data);
-                // console.log("arr: "+arrCountries.filter(item => item === "United States"));
-
                 arrCountries.sort();
                 mekeOptinInSelect(arrCountries)
                 renderBySearch(arrCountries);

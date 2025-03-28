@@ -49,10 +49,19 @@ class Country {
         })
         if (loading) loading.classList = "hide";
     }
-
+    
+    hideLoading() {
+        console.log("entered");
+        const iframe = document.querySelector("#map_iframe_id");
+        const loadingDiv = document.querySelector("#loading_map_div");
+        iframe.onload = function () {
+            loadingDiv.style.display = "none";
+            iframe.style.display = "block"; 
+        };
+    }
     updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
         console.log("link map: " + _link_map);
-
+        
         document.querySelector("#name_id").textContent = _name;
         document.querySelector("#pop_content").innerHTML = `
     <div id="left">
@@ -63,11 +72,12 @@ class Country {
         <div id="info"><i class="fa fa-database"></i> coin: ${_coin}</div>
         <div id="info"><i class="fa fa-university"></i> capital: ${_capital}</div>
         <div id="info" class="borders"> ${this.bordersToStr(_borders)}</div>
-    </div>
-    <div id="right">
+        </div>
+        <div id="right">
+        <div id="loading_map_div"><div id="loading" class="loader loader_on_map"></div></div>
         <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed"
             frameborder="0"></iframe>
-        <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
+            <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
             </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
     </div>
             
@@ -80,6 +90,8 @@ class Country {
             restartCards();
             doApi(getUrlByCode(e.target.textContent.trim()));
         })
+        this.hideLoading()
+        // setTimeout(() => this.hideLoading(),0);
     }
 
     creatModalWithtMoreInfo() {
