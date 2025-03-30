@@ -125,14 +125,24 @@ li:hover {
 }
 
 main{
+    /* border: 3px solid red; */
     /* padding: 30px 0; */
     margin-top: 100px;
     width: 100%;
+    min-height: 75vh;
 }
 
 .myContainer {
+    position: relative;
     /* border: 3px solid rgb(240, 127, 6); */
     width: 80%;
+}
+#options{
+    h3{
+        color: white;
+        font-weight: bold;
+        /* font-size: large; */
+    }
 }
 
 footer {

@@ -1,4 +1,8 @@
 import Country from './countryClass.js';
+const cards = document.querySelector(".cards");
+const createLoading = (_element) => {
+    _element.innerHTML = `<div id="loading" class="loader"></div>`
+}
 const restartCards = () => {
     const cards = document.querySelector(".cards");
     cards.innerHTML = "";
@@ -10,30 +14,103 @@ const getUrlByCode = (_code) => {
     return `https://restcountries.com/v3.1/alpha/${_code}`
 }
 
-const renderInStart = () => {
+const renderInStart = async (_arrCountries) => {
     restartCards();
-    const cards = document.querySelector(".cards");
-    cards.innerHTML = `<div id="loading" class="loader"></div>`
-    const countries = ["israel", "france", "United States", "thailand"];
-    countries.forEach(element => {
-        doApi(getUrlByName(element));
-    });
+    createLoading(cards)
+    // const cards = document.querySelector(".cards");
+    // createLoading(cards);
+    // const countries = ["israel", "france", "United States", "thailand"];
+    // countries.forEach(element => {
+    //     requestApiByUrl(getUrlByName(element));
+    // });
+
+    function getLocation() {
+        return new Promise((resolve, reject) => {
+            if (!navigator.geolocation) {
+                reject("Geolocation is not supported by your browser");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log(`${position.coords.latitude}, ${position.coords.longitude}, ${position.coords.accuracy}, ${position.timestamp}`);
+                resolve({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy,
+                    timestamp: position.timestamp,
+                });
+
+            },
+                (error) => {
+                    reject(`Error getting location: ${error.message}`);
+                }
+            );
+        });
+    }
+
+    async function getAddressFromCoords(latitude, longitude) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=en`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            //   console.log(JSON.stringify(data, null, 2));
+            console.log(data.address.country);
+            requestApiByUrl(getUrlByName(data.address.country));
+            optionsForRender(data.address.country)
+            showAllCountries(_arrCountries)
+
+            return data.address.country;
+        } catch (error) {
+            console.error("Error fetching address:", error);
+            return "Unknown location";
+        }
+    }
+    const points = await getLocation();
+    getAddressFromCoords(points.latitude, points.longitude);
+
 }
+
+const optionsForRender = (_location) => {
+    cards.innerHTML += `
+    <div id="options">
+    <h3>Your location: ${_location}</h3>
+    <button id="shoa_all" class="btn btn-light"">Show all countries</button>
+    </div>
+    `
+   
+}
+
+const showAllCountries = (_aar_countries) => {
+    const container = document.querySelector(".myContainer")
+    const showAll = document.querySelector("#shoa_all");
+    let i = 0;
+    showAll.addEventListener('click', () => {
+       _aar_countries.forEach(element => {
+        createLoading(cards)
+        requestApiByUrl(getUrlByName(element))
+        i ++;
+    });
+    container.innerHTML += `<div id="total"><h4>total: ${i}</h4></div>`
+    })
+
+}
+
 const renderCountriesInNavbar = () => {
     const countries = document.querySelectorAll(".countries_in_navbar");
     countries.forEach(element => {
         element.addEventListener('click', () => {
             restartCards();
             console.log(`entered ${element.textContent}`);
-            doApi(getUrlByCode(element.textContent))
+            requestApiByUrl(getUrlByCode(element.textContent))
         })
     });
 }
+
 const creatObj = (_item) => {
     const coin = Object.keys(_item.currencies);
     const country = new Country(_item.name.common, _item.population, _item.region, _item.languages, coin, _item.capital[0], _item.flags, _item.capitalInfo.latlng, _item.maps.googleMaps, _item.borders);
     country.render();
 }
+
 const renderBySearch = (_arrCountries) => {
     const search = document.querySelector("#search_id");
     const select = document.querySelector("#select_id");
@@ -50,10 +127,11 @@ const renderBySearch = (_arrCountries) => {
             );
             // console.log("results: "+JSON.stringify(results, null, 2));
             if (results.length > 0) {
-                cards.innerHTML = `<div id="loading" class="loader"></div>`
-                setTimeout(()=> renderListResults(results), 0);
+                createLoading(cards);
+                // cards.innerHTML = `<div id="loading" class="loader"></div>`
+                setTimeout(() => renderListResults(results), 0);
                 results.forEach(element => {
-                    doApi(getUrlByName(element));
+                    requestApiByUrl(getUrlByName(element));
                 });
             }
             else {
@@ -66,27 +144,30 @@ const renderBySearch = (_arrCountries) => {
         }
         else {
             select.value = ""
-            if (select.value) doApi(getUrlByName(select.value));
+            if (select.value) requestApiByUrl(getUrlByName(select.value));
             else renderInStart();
         }
     })
 }
+
 const renderListResults = (_list) => {
     const results_countries = document.querySelector("#results_countries");
     _list.forEach(element => {
         results_countries.innerHTML += `<option value="${element}">`
     });
 }
+
 const renderBySelect = () => {
     const select = document.querySelector("#select_id");
     const cards = document.querySelector(".cards");
     select.addEventListener('change', () => {
         restartCards();
-        cards.innerHTML = `<div id="loading" class="loader"></div>`
-        doApi(getUrlByName(select.value))
+        createLoading(cards);
+        requestApiByUrl(getUrlByName(select.value))
     })
 }
-const doApi = (_url) => {
+
+const requestApiByUrl = (_url) => {
     console.log("enter to doAPI");
     fetch(_url)
         .then(response => {
@@ -95,15 +176,15 @@ const doApi = (_url) => {
             }
             return response.json()
                 .then(data => {
-                    // if (data[0].name.common.startsWith("Un") || data[0].name.common.startsWith("Isra")) {
+                    // if (data[0].name.common.startsWith("Is") || data[0].name.common.startsWith("Isra")) {
                     //     console.log(JSON.stringify(data, null, 2));
                     // }
 
                     creatObj(data[0])
                 })
-            .catch(err => {
-                console.log(`error: ${err}`);
-            })
+                .catch(err => {
+                    console.log(`error: ${err}`);
+                })
         })
 }
 
@@ -124,34 +205,33 @@ const mekeOptinInSelect = (_arr) => {
         select.innerHTML += `<option>${element}</option>`
     });
 }
-const doApi2 = (_url) => {
-    fetch(_url).then(response => {
-        if (!response.ok) {
-            throw Error(`error ${response.status}`)
-        }
-        return response.json()
-            .then(data => {
-                const arrCountries = listCountries(data);
-                arrCountries.sort();
-                mekeOptinInSelect(arrCountries)
-                renderBySearch(arrCountries);
-                renderBySelect();
-            })
-            .catch(err => {
-                console.log(`Error ${err}`);
-            })
-    })
-}
-renderCountriesInNavbar();
-doApi2(getUrlAllNames())
-renderInStart();
+const doApi2 = async (_url) => {
+    const response = await fetch(_url);
+    if (!response.ok) {
+        throw Error(`error ${response.status}`)
+    }
+    const data = await response.json()
+    // .then(data => {
+    const arrCountries = listCountries(data);
+    arrCountries.sort();
+    mekeOptinInSelect(arrCountries)
+    renderBySearch(arrCountries);
+    renderBySelect();
 
-const changeColorNavbarWhenScroll = ()=>{
+    return arrCountries;
+    // })
+    // .catch(err => {
+    //     console.log(`Error ${err}`);
+    // })
+}
+
+
+const changeColorNavbarWhenScroll = () => {
 
     const navbar = document.querySelector("#nav_id");
-    const originalColor = "rgba(15, 23, 34, 0.264)"; 
-    const scrolledColor = "rgba(15, 23, 34, 0.813)"; 
-    window.addEventListener('scroll', ()=>{
+    const originalColor = "rgba(15, 23, 34, 0.264)";
+    const scrolledColor = "rgba(15, 23, 34, 0.813)";
+    window.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
             navbar.style.backgroundColor = scrolledColor;
         } else {
@@ -159,201 +239,18 @@ const changeColorNavbarWhenScroll = ()=>{
         }
     })
 }
+
+
+renderCountriesInNavbar();
+const arrCountries = await doApi2(getUrlAllNames())
+// await console.log("Countries: " + arrCountries);
+// showAllCountries(arrCountries);
+
+renderInStart(arrCountries);
+doApi2(getUrlAllNames())
 changeColorNavbarWhenScroll();
 
-export {doApi, getUrlByCode, restartCards};
+export { requestApiByUrl as doApi, getUrlByCode, restartCards, createLoading };
 
 
 
-
-
-// [
-//     {
-//       "name": {
-//         "common": "Israel",
-//         "official": "State of Israel",
-//         "nativeName": {
-//           "ara": {
-//             "official": "دولة إسرائيل",
-//             "common": "إسرائيل"
-//           },
-//           "heb": {
-//             "official": "מדינת ישראל",
-//             "common": "ישראל"
-//           }
-//         }
-//       },
-//       "tld": [
-//         ".il"
-//       ],
-//       "cca2": "IL",
-//       "ccn3": "376",
-//       "cca3": "ISR",
-//       "cioc": "ISR",
-//       "independent": true,
-//       "status": "officially-assigned",
-//       "unMember": true,
-//       "currencies": {
-//         "ILS": {
-//           "name": "Israeli new shekel",
-//           "symbol": "₪"
-//         }
-//       },
-//       "idd": {
-//         "root": "+9",
-//         "suffixes": [
-//           "72"
-//         ]
-//       },
-//       "capital": [
-//         "Jerusalem"
-//       ],
-//       "altSpellings": [
-//         "IL",
-//         "State of Israel",
-//         "Medīnat Yisrā'el"
-//       ],
-//       "region": "Asia",
-//       "subregion": "Western Asia",
-//       "languages": {
-//         "ara": "Arabic",
-//         "heb": "Hebrew"
-//       },
-//       "latlng": [
-//         31.47,
-//         35.13
-//       ],
-//       "landlocked": false,
-//       "borders": [
-//         "EGY",
-//         "JOR",
-//         "LBN",
-//         "PSE",
-//         "SYR"
-//       ],
-//       "area": 20770,
-//       "demonyms": {
-//         "eng": {
-//           "f": "Israeli",
-//           "m": "Israeli"
-//         },
-//         "fra": {
-//           "f": "Israélienne",
-//           "m": "Israélien"
-//         }
-//       },
-//       "flag": "🇮🇱",
-//       "maps": {
-//         "googleMaps": "https://goo.gl/maps/6UY1AH8XeafVwdC97",
-//         "openStreetMaps": "https://www.openstreetmap.org/relation/1473946"
-//       },
-//       "population": 9216900,
-//       "gini": {
-//         "2016": 39
-//       },
-//       "fifa": "ISR",
-//       "car": {
-//         "signs": [
-//           "IL"
-//         ],
-//         "side": "right"
-//       },
-//       "timezones": [
-//         "UTC+02:00"
-//       ],
-//       "continents": [
-//         "Asia"
-//       ],
-//       "flags": {
-//         "png": "https://flagcdn.com/w320/il.png",
-//         "svg": "https://flagcdn.com/il.svg",
-//         "alt": "The flag of Israel has a white field with a blue hexagram — the Magen David — centered between two equal horizontal blue bands situated near the top and bottom edges of the field."
-//       },
-//       "coatOfArms": {
-//         "png": "https://mainfacts.com/media/images/coats_of_arms/il.png",
-//         "svg": "https://mainfacts.com/media/images/coats_of_arms/il.svg"
-//       },
-//       "startOfWeek": "sunday",
-//       "capitalInfo": {
-//         "latlng": [
-//           31.77,
-//           35.23
-//         ]
-//       },
-//       "postalCode": {
-//         "format": "#####",
-//         "regex": "^(\\d{5})$"
-//       }
-//     }
-//   ]
-
-
-// [
-//     {
-//       "name": {
-//         "common": "Bouvet Island",
-//         "official": "Bouvet Island",
-//         "nativeName": {
-//           "nor": {
-//             "official": "Bouvetøya",
-//             "common": "Bouvetøya"
-//           }
-//         }
-//       },
-//       "tld": [
-//         ".bv"
-//       ],
-//       "cca2": "BV",
-//       "ccn3": "074",
-//       "cca3": "BVT",
-//       "independent": false,
-//       "status": "officially-assigned",
-//       "unMember": false,
-//       "idd": {
-//         "root": "+4",
-//         "suffixes": [
-//           "7"
-//         ]
-//       },
-//       "altSpellings": [
-//         "BV",
-//         "Bouvetøya",
-//         "Bouvet-øya"
-//       ],
-//       "region": "Antarctic",
-//       "languages": {
-//         "nor": "Norwegian"
-//       },
-//       "latlng": [
-//         54.4208,
-//         3.3464
-//       ],
-//       "landlocked": false,
-//       "area": 49,
-//       "flag": "🇧🇻",
-//       "maps": {
-//         "googleMaps": "https://goo.gl/maps/7WRQAEKZb4uK36yi9",
-//         "openStreetMaps": "https://www.openstreetmap.org/way/174996681"
-//       },
-//       "population": 0,
-//       "car": {
-//         "signs": [
-//           ""
-//         ],
-//         "side": "right"
-//       },
-//       "timezones": [
-//         "UTC+01:00"
-//       ],
-//       "continents": [
-//         "Antarctica"
-//       ],
-//       "flags": {
-//         "png": "https://flagcdn.com/w320/bv.png",
-//         "svg": "https://flagcdn.com/bv.svg"
-//       },
-//       "coatOfArms": {},
-//       "startOfWeek": "monday",
-//       "capitalInfo": {}
-//     }
-//   ]

@@ -1,5 +1,5 @@
 // import { renderInStart } from "./app.js";
-import { doApi, getUrlByCode, restartCards } from "./app.js";
+import { doApi, getUrlByCode, restartCards, createLoading } from "./app.js";
 import { requestWether, getUrlByCity } from "./weather.js";
 class Country {
     constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map, _borders) {
@@ -91,8 +91,6 @@ class Country {
             const show_more = document.querySelector("#show_more");
             const left = document.querySelector("#left");
             const temp_div = document.querySelector(".temp");
-            // const modal_wether = document.createElement("div");
-            // temp_div.append( )
             show_more.addEventListener('click', () => {
                 temp_div.innerHTML = `
             <div id="info"><i class="fa fa-thermometer-empty" aria-hidden="true" "></i>temp: ${weatherData.temp}<img id="iconWeather" src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></div>
@@ -100,25 +98,26 @@ class Country {
             <div id="info"> <img class="icon" src="./files/description.png" alt="description icon"> description: ${weatherData.description}</div>
             <div id="info"><img class="icon" src="./files/speed.png" alt="speed icon"> speed: ${weatherData.speed}</div>
             `
-            // <div id="info"><img src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></img></div>
-                // <button id="ShowLess" type="button" class="btn btn-outline-light">Light</button>
-                temp_div.style.overflow = "auto"; // גלילה אוטומטית אם יש תוכן שנפלט מהקונטיינר
+                temp_div.style.overflow = "auto";
                 temp_div.style.minHeight = "200px";
                 temp_div.scrollTop = 0;
                 temp_div.scrollIntoView({
-                    behavior: 'smooth', // גלילה חלקה
-                    block: 'start' // גלילה אל תחילת התוכן החדש
+                    behavior: 'smooth', 
+                    block: 'start'
                 });
                 console.log("weatherData.fells_like: " + weatherData.fells_like);
             })
         }, 0)
+
+        const cards = document.querySelector(".cards");
         const borders = document.querySelector(".borders");
         borders.addEventListener('click', (e) => {
             e.preventDefault();
             console.log("clicked");
             console.log("event: " + e.target.textContent.trim());
             restartCards();
-            doApi(getUrlByCode(e.target.textContent.trim()));
+            createLoading(cards)
+             doApi(getUrlByCode(e.target.textContent.trim()));
         })
         this.hideLoadingOnMap()
         // setTimeout(() => this.hideLoading(),0);
