@@ -126,7 +126,7 @@
     border-radius: 10px;
   }
   
-#info , .temp_only{
+#info{
   /* border: 3px solid rgb(235, 10, 10); */
   padding: 5px;
   margin-top: 5px;
@@ -164,15 +164,19 @@
     /* border: 3px solid red; */
   }
   img{
-    background-color: white !important;
-    color: var(--secondBary) !important;
-    height: 60px !important;
-    width: 60px !important;
-  }
-  button{
-    margin-top: 5px;
   }
 }
+#iconWeather{
+  background-color: rgba(10, 61, 90, 0.415);
+  border-radius: 7px;
+  color: var(--secondBary) !important;
+  height: 55px !important;
+  width: 55px !important;
+  margin-left: 10px;
+  margin-left: 20%;
+  
+}
+
 #show_more{
   /* border: 3px solid red; */
   display: inline;

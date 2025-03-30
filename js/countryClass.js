@@ -95,12 +95,12 @@ class Country {
             // temp_div.append( )
             show_more.addEventListener('click', () => {
                 temp_div.innerHTML = `
-            <div id="info"><i class="fa fa-thermometer-empty" aria-hidden="true" "></i>temp: ${weatherData.temp}</div>
-            <div id="info"><img src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></img></div>
+            <div id="info"><i class="fa fa-thermometer-empty" aria-hidden="true" "></i>temp: ${weatherData.temp}<img id="iconWeather" src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></div>
             <div id="info"><img class="icon" src="./files/feels_like.png" alt="feels like icon"> feels like: ${weatherData.fells_like}</div>
             <div id="info"> <img class="icon" src="./files/description.png" alt="description icon"> description: ${weatherData.description}</div>
             <div id="info"><img class="icon" src="./files/speed.png" alt="speed icon"> speed: ${weatherData.speed}</div>
             `
+            // <div id="info"><img src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></img></div>
                 // <button id="ShowLess" type="button" class="btn btn-outline-light">Light</button>
                 temp_div.style.overflow = "auto"; // גלילה אוטומטית אם יש תוכן שנפלט מהקונטיינר
                 temp_div.style.minHeight = "200px";
