@@ -267,12 +267,15 @@
   }
 
   #total {
-    color: var(--secondBary);
+    /* color: var(--secondBary); */
     display: block;
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%)
+  }
+  .myCard{
+    margin-top: 20%;
   }
 
   #pop_content {
