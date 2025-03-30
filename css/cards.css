@@ -28,7 +28,7 @@
   0% {
     transform: scale(0);
   }
-
+  
   100% {
     transform: scale(1);
   }
@@ -48,9 +48,6 @@
     border-radius: 5px;
   }
 }
-.name_title{
-  font-size: 20px;
-}
 #button_more_info{
   height: fit-content;
   padding: 2px;
@@ -64,19 +61,29 @@
 #button_more_info:hover, #footer_pop_id button:hover{
   opacity: 80%;
 }
+/* modal */
+#title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;  
+  button{
+    margin-right: 4px;
+  }
+  h5{
+    margin-left: 6px;
+  }
+}
+.name_title{
+  font-size: 20px;
+}
+
 #popCard{
   /* border: 3px solid red; */
   /* background-color: rgb(33, 37, 41); */
 }
 .modal-dialog{
   /* border: 3px solid red; */
-}
-#title {
-  padding: 2;
-  /* background-color: rgb(33, 37, 41); */
-  /* border: 3px solid hotpink; */
-  /* height: fit-content;
-  padding: 5px; */
 }
 #pop_content {
   padding: 5px;
@@ -114,12 +121,12 @@
   }
   
   #flag {
-    /* border: 3px solid rgb(145, 144, 144); */
+    /* border: 3px solid var(--secondBary); */
     width: 90%;
     border-radius: 10px;
   }
   
-#info {
+#info , .temp_only{
   /* border: 3px solid rgb(235, 10, 10); */
   padding: 5px;
   margin-top: 5px;
@@ -143,8 +150,38 @@
     background-color: rgba(245, 222, 179, 0);
     border: none;
   }
+  button:hover{
+    text-decoration: none;
+    background-color: var(--secondBary);
+  }
+}
+.temp{
+  div{
+    margin: 0px;
+    height: fit-content;
+    background-color: white !important;
+    color: var(--secondBary) !important;
+    /* border: 3px solid red; */
+  }
+  img{
+    background-color: white !important;
+    color: var(--secondBary) !important;
+    height: 60px !important;
+    width: 60px !important;
+  }
+  button{
+    margin-top: 5px;
+  }
+}
+#show_more{
+  /* border: 3px solid red; */
+  display: inline;
+  text-decoration: underline;
 }
 
+#show_more:hover{
+  text-decoration: none;
+}
 #right {
   flex: 1;
   flex-direction: column;
@@ -181,19 +218,11 @@
   }
 }
 
-
-/* .flag {
-  border: 3px solid rgb(0, 187, 255);
-  width: 100%;
-} */
  @media(max-width: 640px){
-  main{
-    /* border: 3px solid red; */
-  }
   .modal-dialog{
     top: 10%;
     width: 85%;
-    margin: 0 auto; /* מרכוז אופקי */
+    margin: 0 auto; 
     left: 0;
     right: 0;
     /* align-self: center; */

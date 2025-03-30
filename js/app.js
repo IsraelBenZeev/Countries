@@ -167,10 +167,6 @@ export {doApi, getUrlByCode, restartCards};
 
 
 
-
-
-
-
 // [
 //     {
 //       "name": {

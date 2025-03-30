@@ -1,5 +1,6 @@
 // import { renderInStart } from "./app.js";
 import { doApi, getUrlByCode, restartCards } from "./app.js";
+import { requestWether, getUrlByCity } from "./weather.js";
 class Country {
     constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map, _borders) {
         this.name = _name;
@@ -49,39 +50,68 @@ class Country {
         })
         if (loading) loading.classList = "hide";
     }
-    
-    hideLoading() {
+
+    hideLoadingOnMap() {
         console.log("entered");
         const iframe = document.querySelector("#map_iframe_id");
         const loadingDiv = document.querySelector("#loading_map_div");
         iframe.onload = function () {
             loadingDiv.style.display = "none";
-            iframe.style.display = "block"; 
+            iframe.style.display = "block";
         };
     }
-    updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
-        console.log("link map: " + _link_map);
-        
+    async updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
+        // console.log(await requestWether(getUrlByCity(_name)));
+        // console.log(await requestWether(getUrlByCity(_name)).temp);
+        const weatherData = await requestWether(getUrlByCity(_name));
         document.querySelector("#name_id").textContent = _name;
         document.querySelector("#pop_content").innerHTML = `
-    <div id="left">
+        <div id="left">
         <div><img id="flag" src="${_flag.png}" class="d-block"></img></div>
         <div id="info"><i class="fa fa-users"></i> pop: ${_pop.toLocaleString()}</div>
         <div id="info"><i class="fa fa-globe"></i> region: ${_region}</div>
         <div id="info"><i class="fa fa-language"></i> languages: ${Object.values(_languages).join(", ")}</div>
         <div id="info"><i class="fa fa-database"></i> coin: ${_coin}</div>
         <div id="info"><i class="fa fa-university"></i> capital: ${_capital}</div>
-        <div id="info" class="borders"> ${this.bordersToStr(_borders)}</div>
+        <div id="info" class="temp"><i class="fa fa-thermometer-empty" aria-hidden="true"></i>temp: ${weatherData.temp} <p id="show_more">show more</p></div>
+        <div id="info" class="borders"><i class="fa fa-map" aria-hidden="true"></i> ${this.bordersToStr(_borders)}</div>
+        
+        
         </div>
         <div id="right">
         <div id="loading_map_div"><div id="loading" class="loader loader_on_map"></div></div>
         <iframe id="map_iframe_id" src="https://maps.google.com/maps?q=${_points[0]},${_points[1]}&z=6&output=embed"
-            frameborder="0"></iframe>
-            <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
-            </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
-    </div>
-            
+        frameborder="0"></iframe>
+        <p><a id="link_map" href="${_link_map}" target="_blank">click here for open with googl map
+        </a><img id="icon_google_map" src="./files/icon_google_map.png" alt="icon_google_map"></p>
+        </div>
+        
     `;
+        setTimeout(() => {
+            const show_more = document.querySelector("#show_more");
+            const left = document.querySelector("#left");
+            const temp_div = document.querySelector(".temp");
+            // const modal_wether = document.createElement("div");
+            // temp_div.append( )
+            show_more.addEventListener('click', () => {
+                temp_div.innerHTML = `
+            <div id="info"><i class="fa fa-thermometer-empty" aria-hidden="true" "></i>temp: ${weatherData.temp}</div>
+            <div id="info"><img src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></img></div>
+            <div id="info"><img class="icon" src="./files/feels_like.png" alt="feels like icon"> feels like: ${weatherData.fells_like}</div>
+            <div id="info"> <img class="icon" src="./files/description.png" alt="description icon"> description: ${weatherData.description}</div>
+            <div id="info"><img class="icon" src="./files/speed.png" alt="speed icon"> speed: ${weatherData.speed}</div>
+            `
+                // <button id="ShowLess" type="button" class="btn btn-outline-light">Light</button>
+                temp_div.style.overflow = "auto"; // גלילה אוטומטית אם יש תוכן שנפלט מהקונטיינר
+                temp_div.style.minHeight = "200px";
+                temp_div.scrollTop = 0;
+                temp_div.scrollIntoView({
+                    behavior: 'smooth', // גלילה חלקה
+                    block: 'start' // גלילה אל תחילת התוכן החדש
+                });
+                console.log("weatherData.fells_like: " + weatherData.fells_like);
+            })
+        }, 0)
         const borders = document.querySelector(".borders");
         borders.addEventListener('click', (e) => {
             e.preventDefault();
@@ -90,7 +120,7 @@ class Country {
             restartCards();
             doApi(getUrlByCode(e.target.textContent.trim()));
         })
-        this.hideLoading()
+        this.hideLoadingOnMap()
         // setTimeout(() => this.hideLoading(),0);
     }
 
