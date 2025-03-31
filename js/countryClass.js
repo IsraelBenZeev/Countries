@@ -1,6 +1,7 @@
 // import { renderInStart } from "./app.js";
 import { doApi, getUrlByCode, restartCards, createLoading, deleteTotal } from "./app.js";
 import { requestWether, getUrlByCity } from "./weather.js";
+import { animationOnCard } from "./style_by_script.js";
 class Country {
     constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map, _borders) {
         this.name = _name;
@@ -46,6 +47,7 @@ class Country {
 
         })
         if (loading) loading.classList = "hide";
+        // animationOnCard(card)
     }
 
     hideLoadingOnMap() {

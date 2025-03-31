@@ -31,6 +31,8 @@
   gap: 5px;
   transform: scale(0);
   animation: grow 0.5s ease-out forwards;
+  /* border: ; */
+  will-change: transform;
 }
 
 @keyframes grow {
@@ -300,7 +302,6 @@
     }
   }
   .temp{
-    /* border: 3px solid red; */
     /* max-height: 100px; */
     height: fit-content !important;
     /* display: flex; */
@@ -309,9 +310,11 @@
     /* justify-content: center; */
     align-items: center;
     div{
+      /* border: 3px solid red; */
       
-      font-size: x-small;
-      font-weight: 300;
+      width: 100% !important;
+      font-size: small;
+      font-weight: 500;
     }
   }
   #show_more{
