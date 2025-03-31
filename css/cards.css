@@ -20,8 +20,8 @@
 }
 
 .myCard {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  /* display: grid; */
+  /* grid-template-columns: 1fr auto; */
   padding: 5px;
   border: 1px solid silver;
   border: 2px solid rgba(33, 37, 41, 0.555);
@@ -134,8 +134,11 @@
   flex-direction: column;
   flex: 1;
   height: 100%;
-  overflow-y: scroll;
   gap: 5px;
+  overflow-y: scroll;
+  
+}
+#bodt_countri{
 
 }
 
@@ -178,20 +181,26 @@
     background-color: var(--secondBary);
   }
 }
-
+ 
+#show_more{
+  /* border: 3px solid red; */
+}
 .temp {
   width: 100%;
-
+  /* border: 3px solid red; */
   div {
     margin: 0px;
+    padding: auto;
     height: fit-content;
     background-color: white !important;
     color: var(--secondBary) !important;
-    width: 100%;
-    /* border: 3px solid red; */
+    width: 100% !important;
+    /* border: 3px solid rgb(0, 255, 64); */
   }
 
-  img {}
+  img {
+    display: none;
+  }
 }
 
 #iconWeather {
@@ -282,7 +291,6 @@
     flex-direction: column;
     height: 550px;
     margin: 0 auto;
-    /* מרכוז נוסף */
     width: 100%;
   }
 
@@ -293,6 +301,15 @@
     justify-content: center;
     align-items: center;
     padding-top: 80px;
+    #info, img{
+      /* border: 3px solid red; */
+      width: 95% !important;
+      
+    }
+  }
+  #show_more{
+    /* border: 3px solid red; */
+    font-size: small;
   }
 
   #right {

@@ -1,5 +1,5 @@
 // import { renderInStart } from "./app.js";
-import { doApi, getUrlByCode, restartCards, createLoading } from "./app.js";
+import { doApi, getUrlByCode, restartCards, createLoading, deleteTotal } from "./app.js";
 import { requestWether, getUrlByCity } from "./weather.js";
 class Country {
     constructor(_name, _pop, _region, languages, _coin, _capital, _flag, _points, _link_map, _borders) {
@@ -15,16 +15,13 @@ class Country {
         this.borders = _borders;
     }
     bordersToStr(_borders) {
-
-        // <a href="#" class="border-country" data-cca3="${item}">${item}</a>
         return _borders.map(item => `
             <button id="close_enter_another_countri" type="button" class="btn btn-secondary" data-bs-dismiss="modal">${item}</button>
             `
         ).join("");
     }
     render() {
-        // console.log(this.bordersToStr(this.borders));
-
+        console.log("enter to render");
         this.creatModalWithtMoreInfo()
         const loading = document.querySelector("#loading");
         const card = document.createElement("div");
@@ -45,7 +42,7 @@ class Country {
         bodyCard.append(flag, name, buttonOpenModal)
         cards.append(card)
         card.addEventListener('click', () => {
-            this.updatePop(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map, this.borders)
+            this.updateDataEndrender(this.name, this.flag, this.pop, this.region, this.languages, this.coin, this.capital, this.points, this.link_map, this.borders)
 
         })
         if (loading) loading.classList = "hide";
@@ -60,14 +57,13 @@ class Country {
             iframe.style.display = "block";
         };
     }
-    async updatePop(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
-        // console.log(await requestWether(getUrlByCity(_name)));
-        // console.log(await requestWether(getUrlByCity(_name)).temp);
+    async updateDataEndrender(_name, _flag, _pop, _region, _languages, _coin, _capital, _points, _link_map, _borders) {
         const weatherData = await requestWether(getUrlByCity(_name));
         document.querySelector("#name_id").textContent = _name;
         document.querySelector("#pop_content").innerHTML = `
         <div id="left">
         <div><img id="flag" src="${_flag.png}" class="d-block"></img></div>
+        
         <div id="info"><i class="fa fa-users"></i> pop: ${_pop.toLocaleString()}</div>
         <div id="info"><i class="fa fa-globe"></i> region: ${_region}</div>
         <div id="info"><i class="fa fa-language"></i> languages: ${Object.values(_languages).join(", ")}</div>
@@ -75,8 +71,6 @@ class Country {
         <div id="info"><i class="fa fa-university"></i> capital: ${_capital}</div>
         <div id="info" class="temp"><i class="fa fa-thermometer-empty" aria-hidden="true"></i>temp: ${weatherData.temp} <p id="show_more">show more</p></div>
         <div id="info" class="borders"><i class="fa fa-map" aria-hidden="true"></i> ${this.bordersToStr(_borders)}</div>
-        
-        
         </div>
         <div id="right">
         <div id="loading_map_div"><div id="loading" class="loader loader_on_map"></div></div>
@@ -87,28 +81,33 @@ class Country {
         </div>
         
     `;
-        setTimeout(() => {
-            const show_more = document.querySelector("#show_more");
-            const left = document.querySelector("#left");
-            const temp_div = document.querySelector(".temp");
-            show_more.addEventListener('click', () => {
-                temp_div.innerHTML = `
+        setTimeout(() => {this.show_more_wether(weatherData);}, 0)
+        this.listinerCodeEndRender()
+    }
+
+    show_more_wether(weatherData) {
+        const show_more = document.querySelector("#show_more");
+        const left = document.querySelector("#left");
+        const temp_div = document.querySelector(".temp");
+        show_more.addEventListener('click', () => {
+            temp_div.innerHTML = `
             <div id="info"><i class="fa fa-thermometer-empty" aria-hidden="true" "></i>temp: ${weatherData.temp}<img id="iconWeather" src="https://openweathermap.org/img/wn/${weatherData.icon}@2x.png" id="info"></div>
             <div id="info"><img class="icon" src="./files/feels_like.png" alt="feels like icon"> feels like: ${weatherData.fells_like}</div>
             <div id="info"> <img class="icon" src="./files/description.png" alt="description icon"> description: ${weatherData.description}</div>
             <div id="info"><img class="icon" src="./files/speed.png" alt="speed icon"> speed: ${weatherData.speed}</div>
             `
-                temp_div.style.overflow = "auto";
-                temp_div.style.minHeight = "200px";
-                temp_div.scrollTop = 0;
-                temp_div.scrollIntoView({
-                    behavior: 'smooth', 
-                    block: 'start'
-                });
-                console.log("weatherData.fells_like: " + weatherData.fells_like);
-            })
-        }, 0)
+            temp_div.style.overflow = "auto";
+            temp_div.style.minHeight = "200px";
+            temp_div.scrollTop = 0;
+            temp_div.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            console.log("weatherData.fells_like: " + weatherData.fells_like);
+        })
+    }
 
+    listinerCodeEndRender(){
         const cards = document.querySelector(".cards");
         const borders = document.querySelector(".borders");
         borders.addEventListener('click', (e) => {
@@ -117,10 +116,10 @@ class Country {
             console.log("event: " + e.target.textContent.trim());
             restartCards();
             createLoading(cards)
-             doApi(getUrlByCode(e.target.textContent.trim()));
+            deleteTotal()
+            doApi(getUrlByCode(e.target.textContent.trim()));
         })
         this.hideLoadingOnMap()
-        // setTimeout(() => this.hideLoading(),0);
     }
 
     creatModalWithtMoreInfo() {
@@ -129,8 +128,9 @@ class Country {
         // const arrLan = Object.keys(this.languages);
         const modal = document.createElement("div");
         let languagesStr = "";
+        // <div class="modal-xl modal fade" id="popCard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         modal.innerHTML = `
-    <div class="modal-xl modal fade" id="popCard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-xl modal fade" id="popCard" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div id="title" class="modal-header">

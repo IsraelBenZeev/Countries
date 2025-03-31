@@ -3,6 +3,10 @@ const cards = document.querySelector(".cards");
 const createLoading = (_element) => {
     _element.innerHTML = `<div id="loading" class="loader"></div>`
 }
+const deleteTotal = ()=>{
+    const total = document.querySelector("#total")
+    if (total) total.innerHTML = ""
+}
 const restartCards = () => {
     const cards = document.querySelector(".cards");
     cards.innerHTML = "";
@@ -76,7 +80,6 @@ const optionsForRender = (_location) => {
     <button id="shoa_all" class="btn btn-light"">Show all countries</button>
     </div>
     `
-   
 }
 
 const showAllCountries = (_aar_countries) => {
@@ -120,6 +123,7 @@ const renderBySearch = (_arrCountries) => {
     search.addEventListener('input', () => {
         results_countries.innerHTML = ""
         restartCards();
+        deleteTotal();
         console.log(search.value);
         if (search.value.length > 0) {
             const results = _arrCountries.filter(country =>
@@ -162,6 +166,7 @@ const renderBySelect = () => {
     const cards = document.querySelector(".cards");
     select.addEventListener('change', () => {
         restartCards();
+        deleteTotal()
         createLoading(cards);
         requestApiByUrl(getUrlByName(select.value))
     })
@@ -247,10 +252,10 @@ const arrCountries = await doApi2(getUrlAllNames())
 // showAllCountries(arrCountries);
 
 renderInStart(arrCountries);
-doApi2(getUrlAllNames())
+// doApi2(getUrlAllNames())
 changeColorNavbarWhenScroll();
 
-export { requestApiByUrl as doApi, getUrlByCode, restartCards, createLoading };
+export { requestApiByUrl as doApi, getUrlByCode, restartCards, createLoading, deleteTotal };
 
 
 
