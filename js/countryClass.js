@@ -97,7 +97,7 @@ class Country {
             <div id="info"><img class="icon" src="./files/speed.png" alt="speed icon"> speed: ${weatherData.speed}</div>
             `
             temp_div.style.overflow = "auto";
-            temp_div.style.minHeight = "200px";
+            temp_div.style.minHeight = "100px";
             temp_div.scrollTop = 0;
             temp_div.scrollIntoView({
                 behavior: 'smooth',

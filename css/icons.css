@@ -64,4 +64,16 @@
     /* border: 3px solid red; */
     max-height: 20px !important;
     max-width: 20px !important;
+    margin-right: 10px;
 }
+#iconWeather {
+    display: none
+    /* background-color: rgba(10, 61, 90, 0.415);
+    border-radius: 7px;
+    color: var(--secondBary) !important;
+    height: 55px !important;
+    width: 55px !important;
+    margin-left: 10px;
+    margin-left: 20%; */
+  
+  }
