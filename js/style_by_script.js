@@ -1,6 +1,11 @@
 // import gsap from "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
 
-// gsap.to("#logo", { rotation: 360, repeat: -1, duration: 2, ease: "linear" })
+console.log("style by script");
+// export const logoAnomation = ()=>{
+//     gsap.to("#logo", { rotation: 360, repeat: -1, duration: 2, ease: "linear" })
+// }
+gsap.to("#logo", { rotation: 360, repeat: -1, duration: 2, ease: "linear" })
+
 // gsap.registerPlugin(TextPlugin)
 
 const li = document.querySelectorAll("li");
@@ -10,8 +15,8 @@ li.forEach(element => {
     })
 });
 
-
 const animationOnCardInHover = (_element) => {
+ 
     // const my_card = document.querySelector(".myCard");
     if (_element) {
 //         // הגדרת אנימציית הכניסה של הדיב

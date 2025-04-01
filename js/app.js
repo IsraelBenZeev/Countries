@@ -1,4 +1,5 @@
 import Country from './countryClass.js';
+// import { logoAnomation } from './style_by_script.js';
 const cards = document.querySelector(".cards");
 const createLoading = (_element) => {
     _element.innerHTML = `<div id="loading" class="loader"></div>`
